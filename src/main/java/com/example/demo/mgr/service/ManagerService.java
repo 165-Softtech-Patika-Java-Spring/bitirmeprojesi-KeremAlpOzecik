@@ -1,6 +1,7 @@
 package com.example.demo.mgr.service;
 
 
+import com.example.demo.gen.exceptions.ItemFoundException;
 import com.example.demo.gen.exceptions.ItemNotFoundException;
 import com.example.demo.mgr.conveter.ManagerMapper;
 import com.example.demo.mgr.dto.ManagerDto;
@@ -8,6 +9,7 @@ import com.example.demo.mgr.dto.ManagerSaveRequestDto;
 import com.example.demo.mgr.dto.ManagerUpdateRequestDto;
 import com.example.demo.mgr.entity.Manager;
 import com.example.demo.mgr.enums.ManagerErrorMessage;
+import com.example.demo.mgr.enums.ManagerExistError;
 import com.example.demo.mgr.service.entityservice.ManagerEntityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,17 +35,20 @@ public class ManagerService {
     }
 
     public ManagerDto save(ManagerSaveRequestDto managerSaveRequestDto) {
+        if(!isManagerExistByUsername(managerSaveRequestDto)){
 
-        Manager manager = ManagerMapper.INSTANCE.SaveManagerDtoToManager(managerSaveRequestDto);
+            Manager manager = ManagerMapper.INSTANCE.SaveManagerDtoToManager(managerSaveRequestDto);
+            String password = passwordEncoder.encode(manager.getPassword());
+            manager.setPassword(password);
 
-        String password = passwordEncoder.encode(manager.getPassword());
-        manager.setPassword(password);
+            manager = managerEntityService.save(manager);
 
-        manager = managerEntityService.save(manager);
+            ManagerDto managerDto = ManagerMapper.INSTANCE.ManagerToManagerDto(manager);
 
-        ManagerDto managerDto = ManagerMapper.INSTANCE.ManagerToManagerDto(manager);
+            return managerDto;
+        }
+        else throw new ItemFoundException(ManagerExistError.MANAGER_EXIST_ERROR);
 
-        return managerDto;
     }
 
 
@@ -76,6 +81,13 @@ public class ManagerService {
         return managerDto;
     }
 
+    private boolean isManagerExistByUsername(ManagerSaveRequestDto managerSaveRequestDto){
+        if (managerEntityService.findByUsername(managerSaveRequestDto.getUsername())==null){
+            return false;
+        }
+        else
+            return true;
+    }
     private void controlIsManagerExist(ManagerUpdateRequestDto managerUpdateRequestDto) {
 
         Long id = managerUpdateRequestDto.getId();

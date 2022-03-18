@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import java.math.BigDecimal;
 @Entity
 @Table(name = "Tax")
@@ -21,6 +22,7 @@ public class Tax {
     private Long id;
     @Enumerated(EnumType.STRING)
     private Category category;
+    @Min(value =1, message = "tax rate cannot be minus value")
     private int taxrate;
 
 }

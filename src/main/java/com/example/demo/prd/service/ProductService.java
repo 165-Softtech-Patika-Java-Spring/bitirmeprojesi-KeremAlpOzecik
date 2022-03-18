@@ -2,6 +2,7 @@ package com.example.demo.prd.service;
 
 import com.example.demo.gen.exceptions.ItemNotFoundException;
 import com.example.demo.prd.converter.ProductMapper;
+import com.example.demo.prd.dto.ProductDetailDto;
 import com.example.demo.prd.dto.ProductDto;
 import com.example.demo.prd.dto.ProductSaveRequestDto;
 import com.example.demo.prd.dto.ProductUpdateRequestDto;
@@ -13,6 +14,8 @@ import com.example.demo.tax.service.TaxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -31,6 +34,16 @@ public class ProductService {
         ProductDto productDto = ProductMapper.INSTANCE.ProductToProductDto(product);
         return productDto;
     }
+    public ProductDetailDto getInfo(Category category){
+        ProductDetailDto productDetailDto=new ProductDetailDto();
+        productDetailDto.setCategory(category);
+        productDetailDto.setTaxrate(taxService.findByCategory(category).getTaxrate());
+        productDetailDto.setMin(productEntityService.min(category));
+        productDetailDto.setMax(productEntityService.max(category));
+        productDetailDto.setAvg(productEntityService.avg(category));
+        productDetailDto.setQty(findByCategory(category).size());
+        return productDetailDto;
+    }
 
     public void setPriceColumns(double taxrate,Product product) {
         double lastprice= ((taxrate/100)+1)*product.getNoTaxPrice();
@@ -42,8 +55,11 @@ public class ProductService {
     public List<ProductDto> findByCategory(Category category){
         List<Product> productList = productEntityService.findByProductCategory(category);
         List<ProductDto> productDtoList = ProductMapper.INSTANCE.ProductListToProductDtoList(productList);
+
+
         return productDtoList;
     }
+
 
     public List<ProductDto> findAll(){
         List<Product> productList = productEntityService.findAll();

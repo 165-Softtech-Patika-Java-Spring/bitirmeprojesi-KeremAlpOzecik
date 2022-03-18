@@ -8,6 +8,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "PRODUCT")
@@ -19,9 +22,12 @@ public class Product extends BaseEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
+@NotEmpty(message = "Product name cannot be empty")
 private String productName;
+@NotEmpty(message = "Product category cannot be empty")
 @Enumerated(EnumType.STRING)
 private Category category;
+@Min(value =1, message = "price cannot be minus value or zero")
 private double noTaxPrice;
 private double taxPrice; //hesaplama yapılacak
 private double lastPrice; // hesaplama yapılacak

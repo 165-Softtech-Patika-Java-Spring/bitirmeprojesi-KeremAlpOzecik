@@ -19,5 +19,8 @@ public class ProductEntityService extends BaseEntityService<Product, ProductDao>
     public List<Product> findByProductCategory(Category category){
      return getDao().findAllByCategory(category);
     }
+    public int min(Category category){return getDao().min(category);}
+    public int max(Category category){return getDao().max(category);}
+    public double avg(Category category){return getDao().avg(category);}
 
 }

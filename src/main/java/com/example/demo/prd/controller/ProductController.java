@@ -1,6 +1,7 @@
 package com.example.demo.prd.controller;
 
 import com.example.demo.gen.dto.RestResponse;
+import com.example.demo.prd.dto.ProductDetailDto;
 import com.example.demo.prd.dto.ProductDto;
 import com.example.demo.prd.dto.ProductSaveRequestDto;
 import com.example.demo.prd.dto.ProductUpdateRequestDto;
@@ -34,6 +35,13 @@ public class ProductController {
         List<ProductDto> productDtoList = productService.findByCategory(category);
         return ResponseEntity.ok(RestResponse.of(productDtoList));
     }
+
+    @GetMapping("/categories/info")
+    public ResponseEntity infoByCategory(@RequestParam Category category){
+        ProductDetailDto info = productService.getInfo(category);
+        return ResponseEntity.ok(RestResponse.of(info));
+    }
+
     @Operation(tags = "Categories: FOOD, STATIONERY, TEXTILE, TECHNOLOGY, CLEANING, OTHERS")
     @PostMapping
     public ResponseEntity save(ProductSaveRequestDto productSaveRequestDto){
