@@ -24,7 +24,6 @@ public class Product extends BaseEntity {
 private Long id;
 @NotEmpty(message = "Product name cannot be empty")
 private String productName;
-@NotEmpty(message = "Product category cannot be empty")
 @Enumerated(EnumType.STRING)
 private Category category;
 @Min(value =1, message = "price cannot be minus value or zero")

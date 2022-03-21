@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 public class ProductEntityService extends BaseEntityService<Product, ProductDao> {
     public ProductEntityService(ProductDao dao) {
         super(dao);

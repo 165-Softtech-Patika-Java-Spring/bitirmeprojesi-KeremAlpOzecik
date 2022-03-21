@@ -13,10 +13,12 @@ import com.example.demo.prd.service.entityservice.ProductEntityService;
 import com.example.demo.tax.service.TaxService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -25,10 +27,11 @@ public class ProductService {
     private final TaxService taxService;
 
     public ProductDto save(ProductSaveRequestDto productSaveRequestDto) {
-
+        if (Objects.isNull(productSaveRequestDto.getCategory()))
+            throw new NullPointerException("Category is not valid please check and try again");
         Product product = ProductMapper.INSTANCE.SaveProductDtoToProduct(productSaveRequestDto);
         int taxrate = taxService.findByCategory(productSaveRequestDto.getCategory()).getTaxrate();
-        System.out.println("TAX RATE"+taxrate);
+
         setPriceColumns(taxrate,product);
         product = productEntityService.save(product);
         ProductDto productDto = ProductMapper.INSTANCE.ProductToProductDto(product);
@@ -53,6 +56,8 @@ public class ProductService {
     }
 
     public List<ProductDto> findByCategory(Category category){
+        if (Objects.isNull(category))
+            throw new NullPointerException("Category is not valid please check and try again");
         List<Product> productList = productEntityService.findByProductCategory(category);
         List<ProductDto> productDtoList = ProductMapper.INSTANCE.ProductListToProductDtoList(productList);
 
@@ -78,12 +83,15 @@ public class ProductService {
     }
 
     public ProductDto update(ProductUpdateRequestDto productUpdateRequestDto) {
+        if (Objects.isNull(productUpdateRequestDto.getCategory()))
+            throw new NullPointerException("Category is not valid please check and try again");
 
         controlIsProductExist(productUpdateRequestDto);
-
         Product product = ProductMapper.INSTANCE.UpdateProductDtoToProduct(productUpdateRequestDto);
-        product = productEntityService.save(product);
+        int taxrate = taxService.findByCategory(productUpdateRequestDto.getCategory()).getTaxrate();
 
+        setPriceColumns(taxrate,product);
+        product = productEntityService.save(product);
         ProductDto productDto = ProductMapper.INSTANCE.ProductToProductDto(product);
 
         return productDto;

@@ -95,6 +95,7 @@ public abstract class BaseEntityService<E extends BaseEntity, D extends JpaRepos
 
     public Long getCurrentCustomerId() {
         Long currentCustomerId = authenticationService.getCurrentCustomerId();
+
         return currentCustomerId;
     }
 }

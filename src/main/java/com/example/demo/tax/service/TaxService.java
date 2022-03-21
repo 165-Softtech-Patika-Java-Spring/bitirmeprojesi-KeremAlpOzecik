@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,8 @@ public class TaxService {
     }
 
     public TaxDto save(TaxSaveRequestDto taxSaveRequestDto){
+        if (Objects.isNull(taxSaveRequestDto.getCategory()))
+            throw new NullPointerException("Category is not valid please check and try again");
         Tax tax = TaxMapper.INSTANCE.TaxSaveRequestDtoToTax(taxSaveRequestDto);
         taxDao.save(tax);
         TaxDto taxDto = TaxMapper.INSTANCE.TaxToTaxDto(tax);

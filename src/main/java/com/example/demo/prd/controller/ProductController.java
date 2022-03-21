@@ -7,7 +7,9 @@ import com.example.demo.prd.dto.ProductSaveRequestDto;
 import com.example.demo.prd.dto.ProductUpdateRequestDto;
 import com.example.demo.prd.enums.Category;
 import com.example.demo.prd.service.ProductService;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,7 @@ public class ProductController {
         return ResponseEntity.ok(RestResponse.of(productDto));
     }
     @GetMapping("/categories")
-    public ResponseEntity findByCategory(@RequestParam Category category){
+    public ResponseEntity findByCategory(@RequestParam("category") Category category){
         List<ProductDto> productDtoList = productService.findByCategory(category);
         return ResponseEntity.ok(RestResponse.of(productDtoList));
     }
@@ -42,9 +44,10 @@ public class ProductController {
         return ResponseEntity.ok(RestResponse.of(info));
     }
 
-    @Operation(tags = "Categories: FOOD, STATIONERY, TEXTILE, TECHNOLOGY, CLEANING, OTHERS")
+    @Operation(description ="Categories: FOOD, STATIONERY, TEXTILE, TECHNOLOGY, CLEANING, OTHERS" )
     @PostMapping
-    public ResponseEntity save(ProductSaveRequestDto productSaveRequestDto){
+    public ResponseEntity save( ProductSaveRequestDto productSaveRequestDto){
+
         ProductDto productDto = productService.save(productSaveRequestDto);
         return ResponseEntity.ok(RestResponse.of(productDto));
     }

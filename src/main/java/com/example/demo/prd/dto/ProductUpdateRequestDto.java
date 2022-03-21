@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.NotEmpty;
+
 @Data
 public class ProductUpdateRequestDto {
     private Long id;
