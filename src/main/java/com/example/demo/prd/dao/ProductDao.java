@@ -22,5 +22,8 @@ public interface ProductDao extends JpaRepository<Product,Long> {
   @Query(value = "SELECT avg(lastPrice) FROM Product where  category=?1")
   public double avg(Category cate);
 
+ List<Product> findAllByLastPriceBetween(double value1,double value2);
+
+
 
 }

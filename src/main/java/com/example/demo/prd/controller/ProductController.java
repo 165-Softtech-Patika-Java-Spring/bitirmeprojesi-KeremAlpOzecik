@@ -37,6 +37,11 @@ public class ProductController {
         List<ProductDto> productDtoList = productService.findByCategory(category);
         return ResponseEntity.ok(RestResponse.of(productDtoList));
     }
+    @GetMapping("/priceRange")
+    public ResponseEntity findByPriceRange(@RequestParam("value1") double value1,@RequestParam("value2") double value2){
+        List<ProductDto> productDtoList = productService.findAllByPriceRange(value1,value2);
+        return ResponseEntity.ok(RestResponse.of(productDtoList));
+    }
 
     @GetMapping("/categories/info")
     public ResponseEntity infoByCategory(@RequestParam Category category){

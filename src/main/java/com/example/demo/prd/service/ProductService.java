@@ -72,6 +72,12 @@ public class ProductService {
         return productDtoList;
 
     }
+    public List<ProductDto> findAllByPriceRange(double value1,double value2){
+        List<Product> productList = productEntityService.findByPriceRange(value1,value2);
+        List<ProductDto> productDtoList = ProductMapper.INSTANCE.ProductListToProductDtoList(productList);
+        return productDtoList;
+
+    }
     public ProductDto updateProductPrice(Long id,double price){
         Product product = productEntityService.getByIdWithControl(id);
         product.setNoTaxPrice(price);

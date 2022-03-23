@@ -83,6 +83,16 @@ class ProductControllerTest extends BaseTest {
 
         assertTrue(isSuccess);
     }
+    @Test
+    void findByPriceRange() throws Exception{
+        MvcResult result = mockMvc.perform(
+                get(BASE_PATH + "/priceRange?value1=10&value2=1000").content("").contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk()).andReturn();
+
+        boolean isSuccess = isSuccess(result);
+
+        assertTrue(isSuccess);
+    }
 
     @Test
     void infoByCategory() throws Exception {

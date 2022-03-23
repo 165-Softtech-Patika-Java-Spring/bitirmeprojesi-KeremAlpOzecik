@@ -82,6 +82,23 @@ class ProductServiceTest {
         productService.findByCategory(Category.FOOD);
         assertEquals(1,productArrayList.size());
     }
+    @Test
+    void shouldfindByPriceRange() {
+
+        Product product = mock(Product.class);
+        Product product2 = mock(Product.class);
+        when(product.getLastPrice()).thenReturn(11.0);
+        when(product2.getLastPrice()).thenReturn(12.0);
+        ArrayList<Product> productArrayList=new ArrayList<>();
+        productArrayList.add(product);
+        productArrayList.add(product2);
+
+       when(productEntityService.findByPriceRange(1.0,110)).thenReturn(productArrayList);
+
+        List<ProductDto> allByPriceRange = productService.findAllByPriceRange(1.0, 110.0);
+
+        assertEquals(2, allByPriceRange.size());
+    }
 //    @Test
 //    void shouldNotfindByCategory() {
 //
