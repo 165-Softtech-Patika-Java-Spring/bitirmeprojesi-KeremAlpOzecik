@@ -1,3 +1,14 @@
+## Kontrol işlemi yapacakların dikkatine:
+Projede testler sadece olumlu durumlar için yazılmıştır. Controller testleri direkt olarak DB'i etkilemektedir.Proje için bir ön yüz bulunmamaktadır. application.properties kendi Postgresql db nize göre düzenlenmelidir. Swagger üzerinden gerekli fonksiyonel testleri yapabilirsiniz. http://localhost:"<port>"/swagger-ui/index.html -> "<port>" kısmına kendi server.port unuzu yazmalısınız.
+  
+Swagger üzerinden dokümantasyon yapılacaktır. Eğer bir güncelleme yapmadıysam şu an için kdv oranlarını ilk başta tanımlamalısınız.
+
+
+
+
+
+
+
 # Bitirme Projesi
 
 Projenin Konusu:
