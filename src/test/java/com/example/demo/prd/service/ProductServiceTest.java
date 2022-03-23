@@ -1,7 +1,5 @@
 package com.example.demo.prd.service;
 
-import com.example.demo.mgr.conveter.ManagerMapper;
-import com.example.demo.prd.converter.ProductMapper;
 import com.example.demo.prd.dto.ProductDetailDto;
 import com.example.demo.prd.dto.ProductDto;
 import com.example.demo.prd.dto.ProductSaveRequestDto;
@@ -10,7 +8,6 @@ import com.example.demo.prd.entity.Product;
 import com.example.demo.prd.enums.Category;
 import com.example.demo.prd.service.entityservice.ProductEntityService;
 import com.example.demo.tax.dto.TaxDto;
-import com.example.demo.tax.dto.TaxSaveRequestDto;
 import com.example.demo.tax.entitiy.Tax;
 import com.example.demo.tax.service.TaxService;
 import org.junit.jupiter.api.Test;
@@ -19,17 +16,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
