@@ -95,13 +95,7 @@ class ProductControllerTest extends BaseTest {
         assertTrue(isSuccess);
 
     }
-   /* {
-        "productName": "havyar",
-            "category": "FOOD",
-            "noTaxPrice": 120,
-            "taxPrice": 0,
-            "lastPrice": 0
-    }*/
+
     @Test
     void save() throws Exception {
         ProductSaveRequestDto productSaveRequestDto = ProductSaveRequestDto.builder()
@@ -128,7 +122,7 @@ class ProductControllerTest extends BaseTest {
     void update() throws Exception{
 
         ProductUpdateRequestDto productUpdateRequestDto=new ProductUpdateRequestDto();
-        productUpdateRequestDto.setId(23L);
+        productUpdateRequestDto.setId(18L);
         productUpdateRequestDto.setProductName("Test");
         productUpdateRequestDto.setCategory(Category.FOOD);
         productUpdateRequestDto.setNoTaxPrice(1200);
@@ -148,7 +142,7 @@ class ProductControllerTest extends BaseTest {
     @Test
     void updatePrice() throws Exception {
         MvcResult result = mockMvc.perform(
-                patch(BASE_PATH + "/?id=15&price=31313131").content("").contentType(MediaType.APPLICATION_JSON)
+                patch(BASE_PATH + "/?id=15&price=1200").content("").contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk()).andReturn();
 
         boolean isSuccess = isSuccess(result);

@@ -46,13 +46,13 @@ public class ProductController {
 
     @Operation(description ="Categories: FOOD, STATIONERY, TEXTILE, TECHNOLOGY, CLEANING, OTHERS" )
     @PostMapping
-    public ResponseEntity save( ProductSaveRequestDto productSaveRequestDto){
+    public ResponseEntity save(@RequestBody ProductSaveRequestDto productSaveRequestDto){
 
         ProductDto productDto = productService.save(productSaveRequestDto);
         return ResponseEntity.ok(RestResponse.of(productDto));
     }
     @PutMapping
-    public ResponseEntity update(ProductUpdateRequestDto productUpdateRequestDto){
+    public ResponseEntity update(@RequestBody ProductUpdateRequestDto productUpdateRequestDto){
         ProductDto productDto = productService.update(productUpdateRequestDto);
         return ResponseEntity.ok(RestResponse.of(productDto));
     }

@@ -15,19 +15,23 @@ import com.example.demo.tax.entitiy.Tax;
 import com.example.demo.tax.service.TaxService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-
+@RunWith(SpringRunner.class)
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest {
 
@@ -77,30 +81,54 @@ class ProductServiceTest {
     }
 
     @Test
-    void findByCategory() {
+    void shouldfindByCategory() {
 
+        Product product = mock(Product.class);
+        ArrayList<Product> productArrayList =new ArrayList<>();
+        productArrayList.add(product);
+        productService.findByCategory(Category.FOOD);
+        assertEquals(1,productArrayList.size());
     }
+//    @Test
+//    void shouldNotfindByCategory() {
+//
+//        Product product = mock(Product.class);
+//        ArrayList<Product> productArrayList =new ArrayList<>();
+//        productArrayList.add(product);
+//        when(productService.findByCategory(null)).thenThrow(java.lang.NullPointerException.class);
+//
+//        assertThrows(NullPointerException.class,()->productService.findByCategory(any()));
+//        verify(productEntityService).findByProductCategory(any());
+//
+//
+//
+//    }
 
     @Test
     void findAll() {
         Product product = mock(Product.class);
         List<Product> productList = new ArrayList<>();
         productList.add(product);
-
-        ProductDto productDto = mock(ProductDto.class);
-        List<ProductDto>  productDtoList = new ArrayList<>();
-        productDtoList.add(productDto);
-
         when(productEntityService.findAll()).thenReturn(productList);
-
-
         List<ProductDto> result = productService.findAll();
-
         assertEquals(1, result.size());
     }
 
     @Test
     void updateProductPrice() {
+
+        Product product=mock(Product.class);
+        when(productEntityService.getByIdWithControl(23L)).thenReturn(product);
+        TaxDto taxDto =mock(TaxDto.class);
+        when(taxService.findByCategory(any())).thenReturn(taxDto);
+        when(taxDto.getTaxrate()).thenReturn(10);
+        when(product.getNoTaxPrice()).thenReturn(100.0);
+        when(product.getId()).thenReturn(23L);
+        productService.updateProductPrice(23L,100.0);
+
+        assertEquals(23L,product.getId());
+        assertEquals(100.0,product.getNoTaxPrice());
+
 
 
     }
@@ -131,9 +159,28 @@ class ProductServiceTest {
 
     @Test
     void deleteProduct() {
+
+        Product product = mock(Product.class);
+
+        when(productEntityService.getByIdWithControl(anyLong())).thenReturn(product);
+
+        productService.deleteProduct(anyLong());
+
+        verify(productEntityService).getByIdWithControl(anyLong());
+        verify(productEntityService).delete(any());
     }
 
     @Test
     void findById() {
+        Long id = 18L;
+
+        Product product = mock(Product.class);
+        when(product.getId()).thenReturn(id);
+
+        when(productEntityService.getByIdWithControl(id)).thenReturn(product);
+
+        ProductDto productDto = productService.findById(id);
+
+        assertEquals(id, productDto.getId());
     }
 }

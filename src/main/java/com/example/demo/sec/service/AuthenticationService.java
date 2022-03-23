@@ -45,18 +45,6 @@ public class AuthenticationService {
         return bearer + token;
     }
 
-    public Manager getCurrentManager() {
-
-        JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
-
-        Manager manager = null;
-        if (jwtUserDetails != null){
-            manager = managerEntityService.getByIdWithControl(jwtUserDetails.getId());
-        }
-
-        return manager;
-    }
-
     public Long getCurrentCustomerId(){
 
         JwtUserDetails jwtUserDetails = getCurrentJwtUserDetails();
