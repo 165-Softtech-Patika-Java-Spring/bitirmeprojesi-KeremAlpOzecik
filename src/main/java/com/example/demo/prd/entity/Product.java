@@ -26,7 +26,6 @@ private Long id;
 private String productName;
 @Enumerated(EnumType.STRING)
 private Category category;
-@Min(value =1, message = "price cannot be minus value or zero")
 private double noTaxPrice;
 private double taxPrice; //hesaplama yapılacak
 private double lastPrice; // hesaplama yapılacak

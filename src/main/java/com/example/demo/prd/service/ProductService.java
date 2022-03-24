@@ -29,6 +29,8 @@ public class ProductService {
     public ProductDto save(ProductSaveRequestDto productSaveRequestDto) {
         if (Objects.isNull(productSaveRequestDto.getCategory()))
             throw new NullPointerException("Category is not valid please check and try again");
+        if(productSaveRequestDto.getNoTaxPrice()<=0)
+            throw new IllegalArgumentException("Price column cannot be zero or minus");
         Product product = ProductMapper.INSTANCE.SaveProductDtoToProduct(productSaveRequestDto);
         int taxrate = taxService.findByCategory(productSaveRequestDto.getCategory()).getTaxrate();
 
@@ -49,8 +51,8 @@ public class ProductService {
     }
 
     public void setPriceColumns(double taxrate,Product product) {
-        double lastprice= ((taxrate/100)+1)*product.getNoTaxPrice();
-        double taxprice=(taxrate/100)*product.getNoTaxPrice();
+        double lastprice= ((taxrate/100.0)+1)*product.getNoTaxPrice();
+        double taxprice=(taxrate/100.0)*product.getNoTaxPrice();
         product.setLastPrice(lastprice);
         product.setTaxPrice(taxprice);
     }
@@ -79,18 +81,24 @@ public class ProductService {
 
     }
     public ProductDto updateProductPrice(Long id,double price){
-        Product product = productEntityService.getByIdWithControl(id);
-        product.setNoTaxPrice(price);
-        setPriceColumns(taxService.findByCategory(product.getCategory()).getTaxrate(),product);
-        productEntityService.save(product);
-        ProductDto productDto=ProductMapper.INSTANCE.ProductToProductDto(product);
-        return productDto;
+        if(!(price<=0)){
 
+            Product product = productEntityService.getByIdWithControl(id);
+            product.setNoTaxPrice(price);
+            setPriceColumns(taxService.findByCategory(product.getCategory()).getTaxrate(),product);
+            productEntityService.save(product);
+            ProductDto productDto=ProductMapper.INSTANCE.ProductToProductDto(product);
+            return productDto;
+        }
+
+        else throw new IllegalArgumentException("Price cannot be 0 or minus");
     }
 
     public ProductDto update(ProductUpdateRequestDto productUpdateRequestDto) {
         if (Objects.isNull(productUpdateRequestDto.getCategory()))
             throw new NullPointerException("Category is not valid please check and try again");
+        if(productUpdateRequestDto.getNoTaxPrice()<=0)
+            throw new IllegalArgumentException("Price column cannot be zero or minus");
 
         controlIsProductExist(productUpdateRequestDto);
         Product product = ProductMapper.INSTANCE.UpdateProductDtoToProduct(productUpdateRequestDto);

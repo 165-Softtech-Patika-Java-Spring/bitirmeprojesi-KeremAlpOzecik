@@ -74,6 +74,8 @@ public class ManagerService {
         controlIsManagerExist(managerUpdateRequestDto);
 
         Manager manager = ManagerMapper.INSTANCE.UpdateManagerDtoToManager(managerUpdateRequestDto);
+        String password = passwordEncoder.encode(manager.getPassword());
+        manager.setPassword(password);
         manager = managerEntityService.save(manager);
 
         ManagerDto managerDto = ManagerMapper.INSTANCE.ManagerToManagerDto(manager);

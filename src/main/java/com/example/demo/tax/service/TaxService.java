@@ -37,8 +37,8 @@ public class TaxService {
         return taxDto;
     }
     private void setPriceColumns(double taxrate,Product product) {
-        double lastprice= ((taxrate/100)+1)*product.getNoTaxPrice();
-        double taxprice=(taxrate/100)*product.getNoTaxPrice();
+        double lastprice= ((taxrate/100.0)+1)*product.getNoTaxPrice();
+        double taxprice=(taxrate/100.0)*product.getNoTaxPrice();
         product.setLastPrice(lastprice);
         product.setTaxPrice(taxprice);
     }

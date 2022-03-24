@@ -118,14 +118,14 @@ public class ProductController {
                                     ),
                                     examples = {
                                             @ExampleObject(
-                                                    name = "Update product",
-                                                    summary = "Update Product Example",
-                                                    description = "Update Product Example",
+                                                    name = "Update product2",
+                                                    summary = "Update Product Example2",
+                                                    description = "Update Product Example2",
                                                     value ="{\n" +
                                                             "  \"id\": 1,\n" +
                                                             "  \"productName\": \"update\",\n" +
-                                                            "  \"category\": \"FOOD\",\n" +
-                                                            "  \"noTaxPrice\": 0,\n" +
+                                                            "  \"category\": \"TEXTILE\",\n" +
+                                                            "  \"noTaxPrice\": 120,\n" +
                                                             "  \"taxPrice\": 0,\n" +
                                                             "  \"lastPrice\": 0\n" +
                                                             "}"
